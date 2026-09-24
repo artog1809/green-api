@@ -1,0 +1,21 @@
+.avatar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-accent);
+  color: var(--color-text-on-accent);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.small {
+  width: 36px;
+  height: 36px;
+  font-size: var(--font-size-sm);
+}

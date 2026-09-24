@@ -1,0 +1,47 @@
+:root {
+  /* Палитра под прототип web.max.ru: светлый фон, фиолетовый акцент */
+  --color-accent: #6c4df6;
+  --color-accent-hover: #5a3ce0;
+  --color-accent-soft: #eee9ff;
+
+  --color-bg: #ffffff;
+  --color-bg-sidebar: #f7f7fa;
+  --color-bg-chat: #f2f2f7;
+  --color-bg-hover: #ededf2;
+
+  --color-bubble-in: #ffffff;
+  --color-bubble-out: #e3dcff;
+
+  --color-text: #17171a;
+  --color-text-secondary: #85858f;
+  --color-text-on-accent: #ffffff;
+
+  --color-border: #e6e6ec;
+  --color-danger: #e5484d;
+  --color-danger-soft: #fdecec;
+  --color-success: #30a46c;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 999px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-size-sm: 13px;
+  --font-size-md: 15px;
+  --font-size-lg: 17px;
+
+  --shadow-sm: 0 1px 2px rgb(23 23 26 / 8%);
+  --shadow-md: 0 4px 16px rgb(23 23 26 / 10%);
+
+  --sidebar-width: 320px;
+  --header-height: 60px;
+}
