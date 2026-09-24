@@ -29,6 +29,33 @@ describe('LoginForm', () => {
     expect(fetchMock).not.toHaveBeenCalled()
   })
 
+  it('не отправляет запрос с пустым или неполным apiUrl', async () => {
+    const fetchMock = mockFetchOnce({})
+    renderWithProviders(<LoginForm />)
+
+    await userEvent.type(screen.getByLabelText('idInstance'), '1101000001')
+    await userEvent.type(screen.getByLabelText('apiTokenInstance'), 'secret-token')
+
+    const apiUrlField = screen.getByLabelText('apiUrl')
+    await userEvent.clear(apiUrlField)
+    await userEvent.click(screen.getByRole('button', { name: 'Войти' }))
+    expect(await screen.findByText('Укажите apiUrl')).toBeInTheDocument()
+
+    await userEvent.type(apiUrlField, 'api.green-api.com')
+    await userEvent.click(screen.getByRole('button', { name: 'Войти' }))
+    expect(
+      await screen.findByText(/Адрес должен быть полным/),
+    ).toBeInTheDocument()
+
+    expect(fetchMock).not.toHaveBeenCalled()
+  })
+
+  it('подставляет адрес API по умолчанию', () => {
+    renderWithProviders(<LoginForm />)
+
+    expect(screen.getByLabelText('apiUrl')).toHaveValue('https://api.green-api.com')
+  })
+
   it('требует, чтобы idInstance состоял из цифр', async () => {
     mockFetchOnce({})
     renderWithProviders(<LoginForm />)

@@ -39,7 +39,16 @@ export function createGreenApiClient(credentials: GreenApiCredentials) {
     query,
   }: RequestOptions): Promise<T | null> {
     const tail = pathAfterToken ? `/${pathAfterToken}` : ''
-    const url = new URL(`${base}/${path}/${apiTokenInstance}${tail}`)
+
+    let url: URL
+    try {
+      url = new URL(`${base}/${path}/${apiTokenInstance}${tail}`)
+    } catch {
+      // Пустой или относительный apiUrl иначе уронил бы запрос
+      // необработанным «Failed to construct 'URL'».
+      throw new GreenApiError('invalid-url', undefined, apiUrl || 'адрес не задан')
+    }
+
     for (const [key, value] of Object.entries(query ?? {})) {
       url.searchParams.set(key, value)
     }

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { toErrorMessage } from '@/shared/api/green-api'
 import { DEFAULT_API_URL } from '@/shared/config/env'
+import { isValidApiUrl, normalizeApiUrl } from '@/shared/lib/api-url'
 import { Button } from '@/shared/ui/Button'
 import { TextField } from '@/shared/ui/TextField'
 import { useLogin } from '../../model/use-login'
@@ -10,14 +11,26 @@ import styles from './LoginForm.module.css'
 interface FormErrors {
   idInstance?: string
   apiTokenInstance?: string
+  apiUrl?: string
 }
 
-function validate(idInstance: string, apiTokenInstance: string): FormErrors {
+function validate(
+  idInstance: string,
+  apiTokenInstance: string,
+  apiUrl: string,
+): FormErrors {
   const errors: FormErrors = {}
+
   if (!idInstance.trim()) errors.idInstance = 'Укажите idInstance'
   else if (!/^\d+$/.test(idInstance.trim()))
     errors.idInstance = 'idInstance состоит только из цифр'
+
   if (!apiTokenInstance.trim()) errors.apiTokenInstance = 'Укажите apiTokenInstance'
+
+  if (!apiUrl.trim()) errors.apiUrl = 'Укажите apiUrl'
+  else if (!isValidApiUrl(apiUrl))
+    errors.apiUrl = 'Адрес должен быть полным, например https://api.green-api.com'
+
   return errors
 }
 
@@ -31,14 +44,14 @@ export function LoginForm() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const nextErrors = validate(idInstance, apiTokenInstance)
+    const nextErrors = validate(idInstance, apiTokenInstance, apiUrl)
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length > 0) return
 
     login.mutate({
       idInstance: idInstance.trim(),
       apiTokenInstance: apiTokenInstance.trim(),
-      apiUrl: apiUrl.trim() || DEFAULT_API_URL,
+      apiUrl: normalizeApiUrl(apiUrl),
     })
   }
 
@@ -76,8 +89,10 @@ export function LoginForm() {
             label="apiUrl"
             value={apiUrl}
             onChange={(event) => setApiUrl(event.target.value)}
-            hint="Адрес API инстанса. Менять нужно, только если он отличается от стандартного."
+            error={errors.apiUrl}
             autoComplete="off"
+            inputMode="url"
+            placeholder={DEFAULT_API_URL}
           />
 
           {login.isError ? (

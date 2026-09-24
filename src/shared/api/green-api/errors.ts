@@ -6,6 +6,7 @@ export type GreenApiErrorKind =
   | 'quota'
   | 'starting'
   | 'bad-request'
+  | 'invalid-url'
   | 'server'
 
 const MESSAGES: Record<GreenApiErrorKind, string> = {
@@ -16,6 +17,7 @@ const MESSAGES: Record<GreenApiErrorKind, string> = {
   quota: 'Исчерпан лимит тарифа GREEN-API. Смените тариф в личном кабинете.',
   starting: 'Инстанс перезапускается. Подождите несколько минут.',
   'bad-request': 'GREEN-API отклонил запрос.',
+  'invalid-url': 'Неверный адрес API инстанса (apiUrl).',
   server: 'GREEN-API временно недоступен. Попробуйте позже.',
 }
 
@@ -66,7 +68,10 @@ export function isFatal(error: unknown): boolean {
   if (!(error instanceof GreenApiError)) return false
 
   return (
-    error.kind === 'auth' || error.kind === 'bad-request' || error.kind === 'quota'
+    error.kind === 'auth' ||
+    error.kind === 'bad-request' ||
+    error.kind === 'invalid-url' ||
+    error.kind === 'quota'
   )
 }
 

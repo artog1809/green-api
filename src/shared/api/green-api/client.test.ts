@@ -17,6 +17,19 @@ function respondWith(status: number, body: string) {
 }
 
 describe('createGreenApiClient', () => {
+  it('на пустом apiUrl отдаёт понятную ошибку, а не сбой URL', async () => {
+    const broken = createGreenApiClient({
+      idInstance: '1101000001',
+      apiTokenInstance: 'secret-token',
+      apiUrl: '',
+    })
+
+    await expect(broken.receiveNotification()).rejects.toMatchObject({
+      kind: 'invalid-url',
+    })
+    await expect(broken.receiveNotification()).rejects.toThrow(/адрес API/i)
+  })
+
   it('ставит apiTokenInstance перед receiptId в deleteNotification', async () => {
     // GREEN-API ждёт .../deleteNotification/{apiTokenInstance}/{receiptId}.
     // Обратный порядок сегментов отвечает 401: токеном считается receiptId.
