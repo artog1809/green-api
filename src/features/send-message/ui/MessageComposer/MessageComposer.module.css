@@ -1,0 +1,28 @@
+.wrapper {
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+}
+
+.form {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+}
+
+.input {
+  flex: 1;
+  max-height: 140px;
+  min-height: 44px;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-sidebar);
+  resize: none;
+  overflow-y: auto;
+}
+
+.input:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
