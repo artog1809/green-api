@@ -18,7 +18,12 @@ npm install
 npm run dev
 ```
 
-Приложение откроется на `http://localhost:5173`.
+Приложение откроется на `http://localhost:5173`. Проверки запускаются одной
+строкой:
+
+```bash
+npm run typecheck && npm run lint && npm run test && npm run build
+```
 
 ## Настройка инстанса GREEN-API
 
@@ -148,13 +153,34 @@ TanStack Query. Дубли отсекаются по `idMessage`.
 
 ## Команды
 
+Разработка:
+
 ```bash
-npm run dev        # дев-сервер
-npm run build      # проверка типов и продакшен-сборка
+npm run dev        # дев-сервер на http://localhost:5173
+npm run build      # проверка типов и продакшен-сборка в dist/
 npm run preview    # просмотр собранной версии
-npm run test       # тесты
-npm run typecheck  # только проверка типов
+```
+
+Проверки:
+
+```bash
+npm run test       # все тесты один раз (vitest run)
+npm run test:watch # тесты в режиме наблюдения
+npm run typecheck  # только проверка типов (tsc -b)
 npm run lint       # oxlint
+```
+
+Прогнать всё разом, как перед сдачей:
+
+```bash
+npm run typecheck && npm run lint && npm run test && npm run build
+```
+
+Точечный запуск тестов — по пути или по названию:
+
+```bash
+npm run test -- src/features/receive-messages   # один каталог
+npm run test -- -t "непрочитанным"              # тесты, чьё имя содержит строку
 ```
 
 ## Что покрыто тестами
